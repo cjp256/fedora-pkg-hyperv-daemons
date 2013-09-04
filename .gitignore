@@ -1,0 +1,6 @@
+/hv_get_dhcp_info.sh
+/hv_get_dns_info.sh
+/hv_kvp_daemon.c
+/hv_set_ifconfig.sh
+/hv_vss_daemon.c
+/COPYING

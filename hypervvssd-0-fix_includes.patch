@@ -1,0 +1,12 @@
+diff -up ./hv_vss_daemon.c.include ./hv_vss_daemon.c
+--- ./hv_vss_daemon.c.include	2013-06-26 10:36:36.444910963 +0200
++++ ./hv_vss_daemon.c	2013-06-26 10:37:22.115951240 +0200
+@@ -34,7 +34,7 @@
+ #include <arpa/inet.h>
+ #include <linux/fs.h>
+ #include <linux/connector.h>
+-#include <linux/hyperv.h>
++#include "linux/hyperv.h"
+ #include <linux/netlink.h>
+ #include <syslog.h>
+ 
