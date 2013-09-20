@@ -225,6 +225,7 @@ fi
 %changelog
 * Fri Sep 20 2013 Tomas Hozza <thozza@redhat.com> - 0-0.2.20130826git
 - Use 'hypervkvpd' directory in libexec for KVP daemon scripts (#1010268)
+- daemons are now WantedBy multi-user.target instead of basic.target (#1010260)
 
 * Mon Aug 26 2013 Tomas Hozza <thozza@redhat.com> - 0-0.1.20130826git
 - Initial package

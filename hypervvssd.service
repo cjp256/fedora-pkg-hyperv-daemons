@@ -6,4 +6,4 @@ ConditionVirtualization=microsoft
 ExecStart=/usr/sbin/hypervvssd
 
 [Install]
-WantedBy=basic.target
+WantedBy=multi-user.target
