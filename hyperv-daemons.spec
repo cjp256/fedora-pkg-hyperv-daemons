@@ -9,7 +9,7 @@
 
 Name:     hyperv-daemons
 Version:  0
-Release:  0.1%{?snapver}%{?dist}
+Release:  0.2%{?snapver}%{?dist}
 Summary:  HyperV daemons suite
 
 Group:    System Environment/Daemons
@@ -174,11 +174,11 @@ mkdir -p %{buildroot}%{_unitdir}
 # Systemd unit file
 install -p -m 0644 %{SOURCE5} %{buildroot}%{_unitdir}
 install -p -m 0644 %{SOURCE101} %{buildroot}%{_unitdir}
-# Shell scripts for the daemon
-mkdir -p %{buildroot}%{_libexecdir}/%{name}
-install -p -m 0755 hv_get_dhcp_info.sh %{buildroot}%{_libexecdir}/%{name}/hv_get_dhcp_info
-install -p -m 0755 hv_get_dns_info.sh %{buildroot}%{_libexecdir}/%{name}/hv_get_dns_info
-install -p -m 0755 hv_set_ifconfig.sh %{buildroot}%{_libexecdir}/%{name}/hv_set_ifconfig
+# Shell scripts for the KVP daemon
+mkdir -p %{buildroot}%{_libexecdir}/%{hv_kvp_daemon}
+install -p -m 0755 hv_get_dhcp_info.sh %{buildroot}%{_libexecdir}/%{hv_kvp_daemon}/hv_get_dhcp_info
+install -p -m 0755 hv_get_dns_info.sh %{buildroot}%{_libexecdir}/%{hv_kvp_daemon}/hv_get_dns_info
+install -p -m 0755 hv_set_ifconfig.sh %{buildroot}%{_libexecdir}/%{hv_kvp_daemon}/hv_set_ifconfig
 # Directory for pool files
 mkdir -p %{buildroot}%{_sharedstatedir}/hyperv
 
@@ -211,10 +211,8 @@ fi
 %files -n hypervkvpd
 %{_sbindir}/%{hv_kvp_daemon}
 %{_unitdir}/hypervkvpd.service
-%dir %{_libexecdir}/%{name}
-%{_libexecdir}/%{name}/hv_get_dhcp_info
-%{_libexecdir}/%{name}/hv_get_dns_info
-%{_libexecdir}/%{name}/hv_set_ifconfig
+%dir %{_libexecdir}/%{hv_kvp_daemon}
+%{_libexecdir}/%{hv_kvp_daemon}/*
 %dir %{_sharedstatedir}/hyperv
 
 %files -n hypervvssd
@@ -225,5 +223,8 @@ fi
 %doc COPYING
 
 %changelog
+* Fri Sep 20 2013 Tomas Hozza <thozza@redhat.com> - 0-0.2.20130826git
+- Use 'hypervkvpd' directory in libexec for KVP daemon scripts (#1010268)
+
 * Mon Aug 26 2013 Tomas Hozza <thozza@redhat.com> - 0-0.1.20130826git
 - Initial package
