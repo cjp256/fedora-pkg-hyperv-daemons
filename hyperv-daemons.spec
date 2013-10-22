@@ -3,38 +3,38 @@
 # HyperV VSS daemon binary name
 %global hv_vss_daemon hypervvssd
 # snapshot version
-%global snapver .20130826git
+%global snapver .20131022git
 # use hardened build
 %global _hardened_build 1
 
 Name:     hyperv-daemons
 Version:  0
-Release:  0.2%{?snapver}%{?dist}
+Release:  0.3%{?snapver}%{?dist}
 Summary:  HyperV daemons suite
 
 Group:    System Environment/Daemons
 License:  GPLv2
 URL:      http://www.kernel.org
 
-# Source files obtained from kernel upstream 2013-08-26.
+# Source files obtained from kernel upstream 2013-10-22.
 # git://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
 # The daemon and scripts are located in "master branch - /tools/hv"
-# COPYING -> https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git/plain/COPYING?id=refs/tags/next-20130822 
+# COPYING -> https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git/plain/COPYING?id=refs/tags/next-20130822
 Source0:  COPYING
 
 # HYPERV KVP DAEMON
-# hv_kvp_daemon.c -> https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git/plain/tools/hv/hv_kvp_daemon.c?id=refs/tags/next-20130822
+# hv_kvp_daemon.c -> https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git/plain/tools/hv/hv_kvp_daemon.c?id=refs/tags/next-20130927
 Source1:  hv_kvp_daemon.c
-# hv_get_dhcp_info.sh -> https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git/plain/tools/hv/hv_get_dhcp_info.sh?id=refs/tags/next-20130822
+# hv_get_dhcp_info.sh -> https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git/plain/tools/hv/hv_get_dhcp_info.sh?id=refs/tags/next-20130927
 Source2:  hv_get_dhcp_info.sh
-# hv_get_dns_info.sh -> https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git/plain/tools/hv/hv_get_dns_info.sh?id=refs/tags/next-20130822
+# hv_get_dns_info.sh -> https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git/plain/tools/hv/hv_get_dns_info.sh?id=refs/tags/next-20130927
 Source3:  hv_get_dns_info.sh
-# hv_set_ifconfig.sh -> https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git/plain/tools/hv/hv_set_ifconfig.sh?id=refs/tags/next-20130822
+# hv_set_ifconfig.sh -> https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git/plain/tools/hv/hv_set_ifconfig.sh?id=refs/tags/next-20130927
 Source4:  hv_set_ifconfig.sh
 Source5:  hypervkvpd.service
 
 # HYPERV VSS DAEMON
-# hv_vss_daemon.c -> https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git/plain/tools/hv/hv_vss_daemon.c?id=refs/tags/next-20130822
+# hv_vss_daemon.c -> https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git/plain/tools/hv/hv_vss_daemon.c?id=refs/tags/next-20130927
 Source100:  hv_vss_daemon.c
 Source101:  hypervvssd.service
 
@@ -223,6 +223,11 @@ fi
 %doc COPYING
 
 %changelog
+* Tue Oct 22 2013 Tomas Hozza <thozza@redhat.com> - 0-0.3.20131022git
+- rebase to the latest git snapshot next-20130927 (obtained 2013-10-22)
+  - KVP, VSS: daemon use single buffer for send/recv
+  - KVP: FQDN is obtained on start and cached
+
 * Fri Sep 20 2013 Tomas Hozza <thozza@redhat.com> - 0-0.2.20130826git
 - Use 'hypervkvpd' directory in libexec for KVP daemon scripts (#1010268)
 - daemons are now WantedBy multi-user.target instead of basic.target (#1010260)
