@@ -9,7 +9,7 @@
 
 Name:     hyperv-daemons
 Version:  0
-Release:  0.3%{?snapver}%{?dist}
+Release:  0.4%{?snapver}%{?dist}
 Summary:  HyperV daemons suite
 
 Group:    System Environment/Daemons
@@ -60,9 +60,11 @@ Patch100:   hypervvssd-0-fix_includes.patch
 # Remove daemon() call and let systemd handle it
 Patch101:   hypervvssd-0-dont_call_daemon.patch
 
-BuildRoot:        %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 # HyperV is available only on x86 architectures
+# The base empty (a.k.a. virtual) package can not be noarch
+# due to http://www.rpm.org/ticket/78
 ExclusiveArch:  i686 x86_64
+
 Requires:       hypervkvpd = %{version}-%{release}
 Requires:       hypervvssd = %{version}-%{release}
 
@@ -207,6 +209,8 @@ fi
 %preun -n hypervvssd
 %systemd_preun hypervvssd.service
 
+%files
+# the base package does not contain any files.
 
 %files -n hypervkvpd
 %{_sbindir}/%{hv_kvp_daemon}
@@ -223,6 +227,9 @@ fi
 %doc COPYING
 
 %changelog
+* Fri Jan 10 2014 Tomas Hozza <thozza@redhat.com> - 0-0.4.20131022git
+- provide 'hyperv-daemons' package for convenient installation of all daemons
+
 * Tue Oct 22 2013 Tomas Hozza <thozza@redhat.com> - 0-0.3.20131022git
 - rebase to the latest git snapshot next-20130927 (obtained 2013-10-22)
   - KVP, VSS: daemon use single buffer for send/recv
