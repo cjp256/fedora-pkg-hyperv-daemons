@@ -12,7 +12,7 @@ Buffer sizes have been increased and length checks added via snprintf.
  1 file changed, 9 insertions(+), 17 deletions(-)
 
 diff --git a/hv_kvp_daemon.c b/hv_kvp_daemon.c
-index 3ea3af2..4c2ab6a 100755
+index 3ea3af2..4c2ab6a 100644
 --- a/hv_kvp_daemon.c
 +++ b/hv_kvp_daemon.c
 @@ -44,6 +44,7 @@
