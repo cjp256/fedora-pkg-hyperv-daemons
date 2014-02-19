@@ -1,15 +1,6 @@
 diff -up hypervkvpd-0/hv_kvp_daemon.c.include hypervkvpd-0/hv_kvp_daemon.c
 --- hypervkvpd-0/hv_kvp_daemon.c.include	2013-03-20 14:47:30.812899613 +0100
 +++ hypervkvpd-0/hv_kvp_daemon.c	2013-03-20 14:47:42.337896971 +0100
-@@ -26,7 +26,7 @@
- #include <sys/socket.h>
- #include <sys/poll.h>
- #include <sys/utsname.h>
--#include <linux/types.h>
-+/* #include <linux/types.h> */
- #include <stdio.h>
- #include <stdlib.h>
- #include <unistd.h>
 @@ -35,7 +35,7 @@
  #include <errno.h>
  #include <arpa/inet.h>
