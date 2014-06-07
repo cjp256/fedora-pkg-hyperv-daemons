@@ -9,7 +9,7 @@
 
 Name:     hyperv-daemons
 Version:  0
-Release:  0.5%{?snapver}%{?dist}
+Release:  0.6%{?snapver}%{?dist}
 Summary:  HyperV daemons suite
 
 Group:    System Environment/Daemons
@@ -227,6 +227,9 @@ fi
 %doc COPYING
 
 %changelog
+* Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0-0.6.20140219git
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
+
 * Wed Feb 19 2014 Tomas Hozza <thozza@redhat.com> - 0-0.5.20140219git
 - rebase to the latest git snapshot next-20140219
   - KVP, VSS: removed inclusion of linux/types.h
