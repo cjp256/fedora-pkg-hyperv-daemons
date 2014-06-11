@@ -1,0 +1,9 @@
+[Unit]
+Description=Hyper-V FCOPY daemon
+ConditionVirtualization=microsoft
+
+[Service]
+ExecStart=/usr/sbin/hypervfcopyd
+
+[Install]
+WantedBy=multi-user.target

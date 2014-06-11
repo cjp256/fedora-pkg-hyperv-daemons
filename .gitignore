@@ -4,3 +4,4 @@
 /hv_set_ifconfig.sh
 /hv_vss_daemon.c
 /COPYING
+/hv_fcopy_daemon.c

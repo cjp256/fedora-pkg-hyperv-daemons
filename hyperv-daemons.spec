@@ -2,8 +2,10 @@
 %global hv_kvp_daemon hypervkvpd
 # HyperV VSS daemon binary name
 %global hv_vss_daemon hypervvssd
+# HyperV FCOPY daemon binary name
+%global hv_fcopy_daemon hypervfcopyd
 # snapshot version
-%global snapver .20140219git
+%global snapver .20140611git
 # use hardened build
 %global _hardened_build 1
 
@@ -16,7 +18,7 @@ Group:    System Environment/Daemons
 License:  GPLv2
 URL:      http://www.kernel.org
 
-# Source files obtained from kernel upstream 2014-02-19.
+# Source files obtained from kernel upstream 2014-06-11.
 # git://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
 # The daemon and scripts are located in "master branch - /tools/hv"
 # COPYING -> https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git/plain/COPYING?id=refs/tags/next-20130822
@@ -38,6 +40,12 @@ Source5:  hypervkvpd.service
 Source100:  hv_vss_daemon.c
 Source101:  hypervvssd.service
 
+# HYPERV FCOPY DAEMON
+# hv_fcopy_daemon.c -> https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git/plain/tools/hv/hv_fcopy_daemon.c?id=refs/tags/next-20140611
+Source200:  hv_fcopy_daemon.c
+Source201:  hypervfcopyd.service
+
+
 # HYPERV KVP DAEMON
 # Correct paths to external scripts ("/usr/libexec/hypervkvpd").
 Patch0:   hypervkvpd-0-corrected_paths_to_external_scripts.patch
@@ -50,6 +58,11 @@ Patch2:   hypervkvpd-0-dont_call_deamon.patch
 # Remove daemon() call and let systemd handle it
 Patch100:   hypervvssd-0-dont_call_daemon.patch
 
+# HYPERV FCOPY DAEMON
+# Remove daemon() call and let systemd handle it
+Patch200:   hypervfcopyd-0-dont_call_daemon.patch
+
+
 # HyperV is available only on x86 architectures
 # The base empty (a.k.a. virtual) package can not be noarch
 # due to http://www.rpm.org/ticket/78
@@ -57,6 +70,7 @@ ExclusiveArch:  i686 x86_64
 
 Requires:       hypervkvpd = %{version}-%{release}
 Requires:       hypervvssd = %{version}-%{release}
+Requires:       hypervfcopyd = %{version}-%{release}
 
 %description
 Suite of daemons that are needed when Linux guest
@@ -98,6 +112,23 @@ from Windows Host if to "freeze" or "thaw" the filesystem
 on the Linux Guest.
 
 
+%package -n hypervfcopyd
+Summary: HyperV FCOPY daemon
+Group:   System Environment/Daemons
+Requires: %{name}-license = %{version}-%{release}
+BuildRequires: systemd, kernel-headers
+Requires(post):   systemd
+Requires(preun):  systemd
+Requires(postun): systemd
+
+%description -n hypervfcopyd
+Hypervfcopyd is an implementation of file copy service functionality
+for Linux Guest running on HyperV. The daemon enables host to copy
+a file (over VMBUS) into the Linux Guest. The daemon first registers
+with the kernel driver. After this is done it waits for instructions 
+from Windows Host.
+
+
 %package license
 Summary:    License of the HyperV daemons suite
 Group:      Applications/System
@@ -120,12 +151,16 @@ cp -pvL %{SOURCE5} hypervkvpd.service
 cp -pvL %{SOURCE100} hv_vss_daemon.c
 cp -pvL %{SOURCE101} hypervvssd.service
 
+cp -pvL %{SOURCE200} hv_fcopy_daemon.c
+cp -pvL %{SOURCE201} hypervfcopyd.service
+
 %patch0 -p1 -b .external_scripts
 %patch1 -p1 -b .long_names
 %patch2 -p1 -b .daemon
 
 %patch100 -p1 -b .daemon
 
+%patch200 -p1 -b .daemon_fcopy
 
 %build
 # HYPERV KVP DAEMON
@@ -148,6 +183,16 @@ gcc \
     hv_vss_daemon.o \
     -o %{hv_vss_daemon}
 
+# HYPERV FCOPY DAEMON
+gcc \
+    $RPM_OPT_FLAGS \
+    -c hv_fcopy_daemon.c
+    
+gcc \
+    $RPM_LD_FLAGS \
+    hv_fcopy_daemon.o \
+    -o %{hv_fcopy_daemon}
+
 
 %install
 rm -rf %{buildroot}
@@ -155,10 +200,12 @@ rm -rf %{buildroot}
 mkdir -p %{buildroot}%{_sbindir}
 install -p -m 0755 %{hv_kvp_daemon} %{buildroot}%{_sbindir}
 install -p -m 0755 %{hv_vss_daemon} %{buildroot}%{_sbindir}
+install -p -m 0755 %{hv_fcopy_daemon} %{buildroot}%{_sbindir}
 mkdir -p %{buildroot}%{_unitdir}
 # Systemd unit file
 install -p -m 0644 %{SOURCE5} %{buildroot}%{_unitdir}
 install -p -m 0644 %{SOURCE101} %{buildroot}%{_unitdir}
+install -p -m 0644 %{SOURCE201} %{buildroot}%{_unitdir}
 # Shell scripts for the KVP daemon
 mkdir -p %{buildroot}%{_libexecdir}/%{hv_kvp_daemon}
 install -p -m 0755 hv_get_dhcp_info.sh %{buildroot}%{_libexecdir}/%{hv_kvp_daemon}/hv_get_dhcp_info
@@ -192,6 +239,17 @@ fi
 %preun -n hypervvssd
 %systemd_preun hypervvssd.service
 
+
+%post -n hypervfcopyd
+%systemd_post hypervfcopyd.service
+
+%postun -n hypervfcopyd
+%systemd_postun hypervfcopyd.service
+
+%preun -n hypervfcopyd
+%systemd_preun hypervfcopyd.service
+
+
 %files
 # the base package does not contain any files.
 
@@ -206,13 +264,18 @@ fi
 %{_sbindir}/%{hv_vss_daemon}
 %{_unitdir}/hypervvssd.service
 
+%files -n hypervfcopyd
+%{_sbindir}/%{hv_fcopy_daemon}
+%{_unitdir}/hypervfcopyd.service
+
 %files license
 %doc COPYING
 
 %changelog
-* Wed Jun 11 2014 Tomas Hozza <thozza@redhat.com> - 0-0.7.20140219git
+* Wed Jun 11 2014 Tomas Hozza <thozza@redhat.com> - 0-0.7.20140611git
 - Fix FTBFS (#1106781)
 - Use kernel-headers instead of kernel-devel for building
+- package new Hyper-V fcopy daemon as hypervfcopyd sub-package
 
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0-0.6.20140219git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
