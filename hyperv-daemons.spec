@@ -9,7 +9,7 @@
 
 Name:     hyperv-daemons
 Version:  0
-Release:  0.6%{?snapver}%{?dist}
+Release:  0.7%{?snapver}%{?dist}
 Summary:  HyperV daemons suite
 
 Group:    System Environment/Daemons
@@ -41,24 +41,14 @@ Source101:  hypervvssd.service
 # HYPERV KVP DAEMON
 # Correct paths to external scripts ("/usr/libexec/hypervkvpd").
 Patch0:   hypervkvpd-0-corrected_paths_to_external_scripts.patch
-# use quoted include for linux/hyperv.h because we use gcc option
-# -iquote for include PATH where it is located. This is because
-# some headers in system include PATH are also in kernel-devel
-# package.
-Patch1:   hypervkvpd-0-include_fix.patch
 # rhbz#872566
-Patch2:   hypervkvpd-0-long_file_names_from_readdir.patch
+Patch1:   hypervkvpd-0-long_file_names_from_readdir.patch
 # Remove daemon() call and let systemd handle it
-Patch3:   hypervkvpd-0-dont_call_deamon.patch
+Patch2:   hypervkvpd-0-dont_call_deamon.patch
 
 # HYPERV VSS DAEMON
-# use quoted include for linux/hyperv.h because we use gcc option
-# -iquote for include PATH where it is located. This is because
-# some headers in system include PATH are also in kernel-devel
-# package.
-Patch100:   hypervvssd-0-fix_includes.patch
 # Remove daemon() call and let systemd handle it
-Patch101:   hypervvssd-0-dont_call_daemon.patch
+Patch100:   hypervvssd-0-dont_call_daemon.patch
 
 # HyperV is available only on x86 architectures
 # The base empty (a.k.a. virtual) package can not be noarch
@@ -77,7 +67,7 @@ is running on Windows Host with HyperV.
 Summary: HyperV key value pair (KVP) daemon
 Group:   System Environment/Daemons
 Requires: %{name}-license = %{version}-%{release}
-BuildRequires: systemd, kernel-devel
+BuildRequires: systemd, kernel-headers
 Requires(post):   systemd
 Requires(preun):  systemd
 Requires(postun): systemd
@@ -94,7 +84,7 @@ IP injection functionality on the Guest.
 Summary: HyperV VSS daemon
 Group:   System Environment/Daemons
 Requires: %{name}-license = %{version}-%{release}
-BuildRequires: systemd, kernel-devel
+BuildRequires: systemd, kernel-headers
 Requires(post):   systemd
 Requires(preun):  systemd
 Requires(postun): systemd
@@ -131,22 +121,16 @@ cp -pvL %{SOURCE100} hv_vss_daemon.c
 cp -pvL %{SOURCE101} hypervvssd.service
 
 %patch0 -p1 -b .external_scripts
-%patch1 -p1 -b .include
-%patch2 -p1 -b .long_names
-%patch3 -p1 -b .daemon
+%patch1 -p1 -b .long_names
+%patch2 -p1 -b .daemon
 
-%patch100 -p1 -b .include
-%patch101 -p1 -b .daemon
+%patch100 -p1 -b .daemon
 
 
 %build
-# kernel-devel version
-%{!?kversion: %global kversion `ls %{_usrsrc}/kernels | sort -dr | head -n 1`}
-
 # HYPERV KVP DAEMON
 gcc \
     $RPM_OPT_FLAGS \
-    -iquote %{_usrsrc}/kernels/%{kversion}/include \
     -c hv_kvp_daemon.c
     
 gcc \
@@ -157,7 +141,6 @@ gcc \
 # HYPERV VSS DAEMON
 gcc \
     $RPM_OPT_FLAGS \
-    -iquote %{_usrsrc}/kernels/%{kversion}/include \
     -c hv_vss_daemon.c
     
 gcc \
@@ -227,6 +210,10 @@ fi
 %doc COPYING
 
 %changelog
+* Wed Jun 11 2014 Tomas Hozza <thozza@redhat.com> - 0-0.7.20140219git
+- Fix FTBFS (#1106781)
+- Use kernel-headers instead of kernel-devel for building
+
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0-0.6.20140219git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 
