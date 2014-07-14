@@ -5,13 +5,13 @@
 # HyperV FCOPY daemon binary name
 %global hv_fcopy_daemon hypervfcopyd
 # snapshot version
-%global snapver .20140611git
+%global snapver .20140714git
 # use hardened build
 %global _hardened_build 1
 
 Name:     hyperv-daemons
 Version:  0
-Release:  0.7%{?snapver}%{?dist}
+Release:  0.8%{?snapver}%{?dist}
 Summary:  HyperV daemons suite
 
 Group:    System Environment/Daemons
@@ -41,7 +41,7 @@ Source100:  hv_vss_daemon.c
 Source101:  hypervvssd.service
 
 # HYPERV FCOPY DAEMON
-# hv_fcopy_daemon.c -> https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git/plain/tools/hv/hv_fcopy_daemon.c?id=refs/tags/next-20140611
+# hv_fcopy_daemon.c -> https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git/plain/tools/hv/hv_fcopy_daemon.c?id=refs/tags/next-20140714
 Source200:  hv_fcopy_daemon.c
 Source201:  hypervfcopyd.service
 
@@ -272,6 +272,10 @@ fi
 %doc COPYING
 
 %changelog
+* Mon Jul 14 2014 Tomas Hozza <thozza@redhat.com> - 0-0.8.20140714git
+- Update the File copy daemon to the latest git snapshot
+- Fix hyperfcopyd.service to check for /dev/vmbus/hv_fcopy
+
 * Wed Jun 11 2014 Tomas Hozza <thozza@redhat.com> - 0-0.7.20140611git
 - Fix FTBFS (#1106781)
 - Use kernel-headers instead of kernel-devel for building
