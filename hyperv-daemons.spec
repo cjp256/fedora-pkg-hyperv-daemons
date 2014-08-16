@@ -11,7 +11,7 @@
 
 Name:     hyperv-daemons
 Version:  0
-Release:  0.8%{?snapver}%{?dist}
+Release:  0.9%{?snapver}%{?dist}
 Summary:  HyperV daemons suite
 
 Group:    System Environment/Daemons
@@ -272,6 +272,9 @@ fi
 %doc COPYING
 
 %changelog
+* Sat Aug 16 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0-0.9.20140714git
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
+
 * Mon Jul 14 2014 Tomas Hozza <thozza@redhat.com> - 0-0.8.20140714git
 - Update the File copy daemon to the latest git snapshot
 - Fix hyperfcopyd.service to check for /dev/vmbus/hv_fcopy
