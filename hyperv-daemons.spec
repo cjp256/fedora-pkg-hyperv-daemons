@@ -5,43 +5,43 @@
 # HyperV FCOPY daemon binary name
 %global hv_fcopy_daemon hypervfcopyd
 # snapshot version
-%global snapver .20140714git
+%global snapver .20150108git
 # use hardened build
 %global _hardened_build 1
 
 Name:     hyperv-daemons
 Version:  0
-Release:  0.9%{?snapver}%{?dist}
+Release:  0.10%{?snapver}%{?dist}
 Summary:  HyperV daemons suite
 
 Group:    System Environment/Daemons
 License:  GPLv2
 URL:      http://www.kernel.org
 
-# Source files obtained from kernel upstream 2014-06-11.
-# git://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git
+# Source files obtained from kernel upstream 3.19-rc3 (b1940cd21c0f4abdce101253e860feff547291b0)
+# git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
 # The daemon and scripts are located in "master branch - /tools/hv"
-# COPYING -> https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git/plain/COPYING?id=refs/tags/next-20130822
+# COPYING -> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/COPYING?id=b1940cd21c0f4abdce101253e860feff547291b
 Source0:  COPYING
 
 # HYPERV KVP DAEMON
-# hv_kvp_daemon.c -> https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git/plain/tools/hv/hv_kvp_daemon.c?id=refs/tags/next-20140219
+# hv_kvp_daemon.c -> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/tools/hv/hv_kvp_daemon.c?id=b1940cd21c0f4abdce101253e860feff547291b0
 Source1:  hv_kvp_daemon.c
-# hv_get_dhcp_info.sh -> https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git/plain/tools/hv/hv_get_dhcp_info.sh?id=refs/tags/next-20140219
+# hv_get_dhcp_info.sh -> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/tools/hv/hv_get_dhcp_info.sh?id=b1940cd21c0f4abdce101253e860feff547291b0
 Source2:  hv_get_dhcp_info.sh
-# hv_get_dns_info.sh -> https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git/plain/tools/hv/hv_get_dns_info.sh?id=refs/tags/next-20140219
+# hv_get_dns_info.sh -> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/tools/hv/hv_get_dns_info.sh?id=b1940cd21c0f4abdce101253e860feff547291b0
 Source3:  hv_get_dns_info.sh
-# hv_set_ifconfig.sh -> https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git/plain/tools/hv/hv_set_ifconfig.sh?id=refs/tags/next-20140219
+# hv_set_ifconfig.sh -> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/tools/hv/hv_set_ifconfig.sh?id=b1940cd21c0f4abdce101253e860feff547291b0
 Source4:  hv_set_ifconfig.sh
 Source5:  hypervkvpd.service
 
 # HYPERV VSS DAEMON
-# hv_vss_daemon.c -> https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git/plain/tools/hv/hv_vss_daemon.c?id=refs/tags/next-20140219
+# hv_vss_daemon.c -> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/tools/hv/hv_vss_daemon.c?id=b1940cd21c0f4abdce101253e860feff547291b0
 Source100:  hv_vss_daemon.c
 Source101:  hypervvssd.service
 
 # HYPERV FCOPY DAEMON
-# hv_fcopy_daemon.c -> https://git.kernel.org/cgit/linux/kernel/git/next/linux-next.git/plain/tools/hv/hv_fcopy_daemon.c?id=refs/tags/next-20140714
+# hv_fcopy_daemon.c -> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/tools/hv/hv_fcopy_daemon.c?id=b1940cd21c0f4abdce101253e860feff547291b0
 Source200:  hv_fcopy_daemon.c
 Source201:  hypervfcopyd.service
 
@@ -51,16 +51,6 @@ Source201:  hypervfcopyd.service
 Patch0:   hypervkvpd-0-corrected_paths_to_external_scripts.patch
 # rhbz#872566
 Patch1:   hypervkvpd-0-long_file_names_from_readdir.patch
-# Remove daemon() call and let systemd handle it
-Patch2:   hypervkvpd-0-dont_call_deamon.patch
-
-# HYPERV VSS DAEMON
-# Remove daemon() call and let systemd handle it
-Patch100:   hypervvssd-0-dont_call_daemon.patch
-
-# HYPERV FCOPY DAEMON
-# Remove daemon() call and let systemd handle it
-Patch200:   hypervfcopyd-0-dont_call_daemon.patch
 
 
 # HyperV is available only on x86 architectures
@@ -156,43 +146,19 @@ cp -pvL %{SOURCE201} hypervfcopyd.service
 
 %patch0 -p1 -b .external_scripts
 %patch1 -p1 -b .long_names
-%patch2 -p1 -b .daemon
-
-%patch100 -p1 -b .daemon
-
-%patch200 -p1 -b .daemon_fcopy
 
 %build
 # HYPERV KVP DAEMON
-gcc \
-    $RPM_OPT_FLAGS \
-    -c hv_kvp_daemon.c
-    
-gcc \
-    $RPM_LD_FLAGS \
-    hv_kvp_daemon.o \
-    -o %{hv_kvp_daemon}
+gcc $RPM_OPT_FLAGS -c hv_kvp_daemon.c
+gcc $RPM_LD_FLAGS  hv_kvp_daemon.o -o %{hv_kvp_daemon}
 
 # HYPERV VSS DAEMON
-gcc \
-    $RPM_OPT_FLAGS \
-    -c hv_vss_daemon.c
-    
-gcc \
-    $RPM_LD_FLAGS \
-    hv_vss_daemon.o \
-    -o %{hv_vss_daemon}
+gcc $RPM_OPT_FLAGS -c hv_vss_daemon.c
+gcc $RPM_LD_FLAGS hv_vss_daemon.o -o %{hv_vss_daemon}
 
 # HYPERV FCOPY DAEMON
-gcc \
-    $RPM_OPT_FLAGS \
-    -c hv_fcopy_daemon.c
-    
-gcc \
-    $RPM_LD_FLAGS \
-    hv_fcopy_daemon.o \
-    -o %{hv_fcopy_daemon}
-
+gcc $RPM_OPT_FLAGS -c hv_fcopy_daemon.c
+gcc $RPM_LD_FLAGS hv_fcopy_daemon.o -o %{hv_fcopy_daemon}
 
 %install
 rm -rf %{buildroot}
@@ -272,6 +238,10 @@ fi
 %doc COPYING
 
 %changelog
+* Thu Jan 08 2015 Vitaly Kuznetsov <vkuznets@redhat.com> - 0-0.10.20150108git
+- Rebase to 3.19-rc3 (20150108 git snapshot)
+- Drop 'nodaemon' patches, use newly introduced '-n' option
+
 * Sat Aug 16 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0-0.9.20140714git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 

@@ -1,29 +1,33 @@
-From 396ee697e4d5c7d10bacf6d4670fb4ddab357330 Mon Sep 17 00:00:00 2001
-From: Tomas Hozza <thozza@redhat.com>
-Date: Mon, 5 Nov 2012 13:56:02 +0100
+From 8d7fb2212e93411a8f2a07a9cf6be7325e30f3a4 Mon Sep 17 00:00:00 2001
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+Date: Thu, 8 Jan 2015 18:03:46 +0100
 Subject: [PATCH] Tools: hv: Fix for long file names from readdir
+
+From: Tomas Hozza <thozza@redhat.com>
 
 kvp_get_if_name and kvp_mac_to_if_name copy strings into statically
 sized buffers which could be too small to store really long names.
 
 Buffer sizes have been increased and length checks added via snprintf.
+
+Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
 ---
  hv_kvp_daemon.c | 26 +++++++++-----------------
  1 file changed, 9 insertions(+), 17 deletions(-)
 
 diff --git a/hv_kvp_daemon.c b/hv_kvp_daemon.c
-index 3ea3af2..4c2ab6a 100644
+index 6a6432a..138666a 100644
 --- a/hv_kvp_daemon.c
 +++ b/hv_kvp_daemon.c
-@@ -44,6 +44,7 @@
+@@ -43,6 +43,7 @@
  #include <fcntl.h>
  #include <dirent.h>
  #include <net/if.h>
 +#include <limits.h>
+ #include <getopt.h>
  
  /*
-  * KVP protocol: The user mode component first registers with the
-@@ -588,26 +589,22 @@ static char *kvp_get_if_name(char *guid)
+@@ -603,26 +604,22 @@ static char *kvp_get_if_name(char *guid)
  	DIR *dir;
  	struct dirent *entry;
  	FILE    *file;
@@ -54,7 +58,7 @@ index 3ea3af2..4c2ab6a 100644
  
  		file = fopen(dev_id, "r");
  		if (file == NULL)
-@@ -680,28 +677,23 @@ static char *kvp_mac_to_if_name(char *mac)
+@@ -695,28 +692,23 @@ static char *kvp_mac_to_if_name(char *mac)
  	DIR *dir;
  	struct dirent *entry;
  	FILE    *file;
@@ -88,5 +92,5 @@ index 3ea3af2..4c2ab6a 100644
  		file = fopen(dev_id, "r");
  		if (file == NULL)
 -- 
-1.7.11.7
+1.9.3
 

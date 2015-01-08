@@ -4,7 +4,7 @@ ConditionVirtualization=microsoft
 ConditionPathExists=/dev/vmbus/hv_fcopy
 
 [Service]
-ExecStart=/usr/sbin/hypervfcopyd
+ExecStart=/usr/sbin/hypervfcopyd -n
 
 [Install]
 WantedBy=multi-user.target

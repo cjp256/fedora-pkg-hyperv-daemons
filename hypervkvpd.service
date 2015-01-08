@@ -4,7 +4,7 @@ ConditionVirtualization=microsoft
 
 [Service]
 Type=simple
-ExecStart=/usr/sbin/hypervkvpd
+ExecStart=/usr/sbin/hypervkvpd -n
 
 [Install]
 WantedBy=multi-user.target
