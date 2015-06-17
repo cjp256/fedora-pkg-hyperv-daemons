@@ -11,7 +11,7 @@
 
 Name:     hyperv-daemons
 Version:  0
-Release:  0.10%{?snapver}%{?dist}
+Release:  0.11%{?snapver}%{?dist}
 Summary:  HyperV daemons suite
 
 Group:    System Environment/Daemons
@@ -238,6 +238,9 @@ fi
 %doc COPYING
 
 %changelog
+* Wed Jun 17 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0-0.11.20150108git
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
 * Thu Jan 08 2015 Vitaly Kuznetsov <vkuznets@redhat.com> - 0-0.10.20150108git
 - Rebase to 3.19-rc3 (20150108 git snapshot)
 - Drop 'nodaemon' patches, use newly introduced '-n' option
