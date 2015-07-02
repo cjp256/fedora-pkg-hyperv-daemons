@@ -1,6 +1,7 @@
 [Unit]
 Description=Hyper-V KVP daemon
 ConditionVirtualization=microsoft
+ConditionPathExists=/dev/vmbus/hv_kvp
 
 [Service]
 Type=simple

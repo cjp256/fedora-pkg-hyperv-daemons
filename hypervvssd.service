@@ -1,6 +1,7 @@
 [Unit]
 Description=Hyper-V VSS daemon
 ConditionVirtualization=microsoft
+ConditionPathExists=/dev/vmbus/hv_vss
 
 [Service]
 ExecStart=/usr/sbin/hypervvssd -n

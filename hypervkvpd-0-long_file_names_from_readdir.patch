@@ -1,6 +1,6 @@
-From 8d7fb2212e93411a8f2a07a9cf6be7325e30f3a4 Mon Sep 17 00:00:00 2001
+From a3634ce7eb5fc77e22c0d3722fb30e32b0d7d9fa Mon Sep 17 00:00:00 2001
 From: Vitaly Kuznetsov <vkuznets@redhat.com>
-Date: Thu, 8 Jan 2015 18:03:46 +0100
+Date: Thu, 2 Jul 2015 17:21:02 +0200
 Subject: [PATCH] Tools: hv: Fix for long file names from readdir
 
 From: Tomas Hozza <thozza@redhat.com>
@@ -16,10 +16,10 @@ Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
  1 file changed, 9 insertions(+), 17 deletions(-)
 
 diff --git a/hv_kvp_daemon.c b/hv_kvp_daemon.c
-index 6a6432a..138666a 100644
+index 0d9f48e..ac89056 100644
 --- a/hv_kvp_daemon.c
 +++ b/hv_kvp_daemon.c
-@@ -43,6 +43,7 @@
+@@ -42,6 +42,7 @@
  #include <fcntl.h>
  #include <dirent.h>
  #include <net/if.h>
@@ -27,7 +27,7 @@ index 6a6432a..138666a 100644
  #include <getopt.h>
  
  /*
-@@ -603,26 +604,22 @@ static char *kvp_get_if_name(char *guid)
+@@ -599,26 +600,22 @@ static char *kvp_get_if_name(char *guid)
  	DIR *dir;
  	struct dirent *entry;
  	FILE    *file;
@@ -58,7 +58,7 @@ index 6a6432a..138666a 100644
  
  		file = fopen(dev_id, "r");
  		if (file == NULL)
-@@ -695,28 +692,23 @@ static char *kvp_mac_to_if_name(char *mac)
+@@ -691,28 +688,23 @@ static char *kvp_mac_to_if_name(char *mac)
  	DIR *dir;
  	struct dirent *entry;
  	FILE    *file;
@@ -69,7 +69,7 @@ index 6a6432a..138666a 100644
  	char *kvp_net_dir = "/sys/class/net/";
 -	char dev_id[256];
 +	char dev_id[PATH_MAX];
- 	int i;
+ 	unsigned int i;
  
  	dir = opendir(kvp_net_dir);
  	if (dir == NULL)
@@ -87,10 +87,10 @@ index 6a6432a..138666a 100644
 -		strcat(dev_id, entry->d_name);
 -		strcat(dev_id, "/address");
 +		snprintf(dev_id, sizeof(dev_id), "%s%s/address", kvp_net_dir,
-+                entry->d_name);
++			 entry->d_name);
  
  		file = fopen(dev_id, "r");
  		if (file == NULL)
 -- 
-1.9.3
+2.4.3
 

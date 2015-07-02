@@ -1,7 +1,7 @@
 5a1b4a81be9d5bbbf8869976408354e8  hv_get_dhcp_info.sh
 dbb5cc7ec83ccc7b1c39458a7521c9b4  hv_get_dns_info.sh
-20bb00d2260c7b3c2382aedfe097bffb  hv_kvp_daemon.c
+292ced879e33c28fff39994e6d1b3197  hv_kvp_daemon.c
 da7f77aa7507e950851cbb53673ce5d4  hv_set_ifconfig.sh
-b9d0acb860d0e78f7637193e0af77936  hv_vss_daemon.c
-9b67527810671cc62d6057f11c9e2841  hv_fcopy_daemon.c
+80b96626b959b48c04050dd1441ded52  hv_vss_daemon.c
+3311add6e715f6f4bfebf45b8910ed8d  hv_fcopy_daemon.c
 d7810fab7487fb0aad327b76f1be7cd7  COPYING
