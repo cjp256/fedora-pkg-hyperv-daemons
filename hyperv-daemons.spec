@@ -8,10 +8,12 @@
 %global snapver .20150702git
 # use hardened build
 %global _hardened_build 1
+# udev rules prefix
+%global udev_prefix 70
 
 Name:     hyperv-daemons
 Version:  0
-Release:  0.12%{?snapver}%{?dist}
+Release:  0.13%{?snapver}%{?dist}
 Summary:  HyperV daemons suite
 
 Group:    System Environment/Daemons
@@ -34,16 +36,19 @@ Source3:  hv_get_dns_info.sh
 # hv_set_ifconfig.sh -> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/tools/hv/hv_set_ifconfig.sh?id=4da3064d1775810f10f7ddc1c34c3f1ff502a654
 Source4:  hv_set_ifconfig.sh
 Source5:  hypervkvpd.service
+Source6:  hypervkvp.rules
 
 # HYPERV VSS DAEMON
 # hv_vss_daemon.c -> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/tools/hv/hv_vss_daemon.c?id=4da3064d1775810f10f7ddc1c34c3f1ff502a654
 Source100:  hv_vss_daemon.c
 Source101:  hypervvssd.service
+Source102:  hypervvss.rules
 
 # HYPERV FCOPY DAEMON
 # hv_fcopy_daemon.c -> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/tools/hv/hv_fcopy_daemon.c?id=4da3064d1775810f10f7ddc1c34c3f1ff502a654
 Source200:  hv_fcopy_daemon.c
 Source201:  hypervfcopyd.service
+Source202:  hypervfcopy.rules
 
 
 # HYPERV KVP DAEMON
@@ -133,16 +138,8 @@ Contains license of the HyperV daemons suite.
 cp -pvL %{SOURCE0} COPYING
 
 cp -pvL %{SOURCE1} hv_kvp_daemon.c
-cp -pvL %{SOURCE2} hv_get_dhcp_info.sh
-cp -pvL %{SOURCE3} hv_get_dns_info.sh
-cp -pvL %{SOURCE4} hv_set_ifconfig.sh
-cp -pvL %{SOURCE5} hypervkvpd.service
-
 cp -pvL %{SOURCE100} hv_vss_daemon.c
-cp -pvL %{SOURCE101} hypervvssd.service
-
 cp -pvL %{SOURCE200} hv_fcopy_daemon.c
-cp -pvL %{SOURCE201} hypervfcopyd.service
 
 %patch0 -p1 -b .external_scripts
 %patch1 -p1 -b .long_names
@@ -167,16 +164,21 @@ mkdir -p %{buildroot}%{_sbindir}
 install -p -m 0755 %{hv_kvp_daemon} %{buildroot}%{_sbindir}
 install -p -m 0755 %{hv_vss_daemon} %{buildroot}%{_sbindir}
 install -p -m 0755 %{hv_fcopy_daemon} %{buildroot}%{_sbindir}
-mkdir -p %{buildroot}%{_unitdir}
 # Systemd unit file
+mkdir -p %{buildroot}%{_unitdir}
 install -p -m 0644 %{SOURCE5} %{buildroot}%{_unitdir}
 install -p -m 0644 %{SOURCE101} %{buildroot}%{_unitdir}
 install -p -m 0644 %{SOURCE201} %{buildroot}%{_unitdir}
+# Udev rules
+mkdir -p %{buildroot}%{_udevrulesdir}
+install -p -m 0644 %{SOURCE6} %{buildroot}%{_udevrulesdir}/%{udev_prefix}-hypervkvp.rules
+install -p -m 0644 %{SOURCE102} %{buildroot}%{_udevrulesdir}/%{udev_prefix}-hypervvss.rules
+install -p -m 0644 %{SOURCE202} %{buildroot}%{_udevrulesdir}/%{udev_prefix}-hypervfcopy.rules
 # Shell scripts for the KVP daemon
 mkdir -p %{buildroot}%{_libexecdir}/%{hv_kvp_daemon}
-install -p -m 0755 hv_get_dhcp_info.sh %{buildroot}%{_libexecdir}/%{hv_kvp_daemon}/hv_get_dhcp_info
-install -p -m 0755 hv_get_dns_info.sh %{buildroot}%{_libexecdir}/%{hv_kvp_daemon}/hv_get_dns_info
-install -p -m 0755 hv_set_ifconfig.sh %{buildroot}%{_libexecdir}/%{hv_kvp_daemon}/hv_set_ifconfig
+install -p -m 0755 %{SOURCE2} %{buildroot}%{_libexecdir}/%{hv_kvp_daemon}/hv_get_dhcp_info
+install -p -m 0755 %{SOURCE3} %{buildroot}%{_libexecdir}/%{hv_kvp_daemon}/hv_get_dns_info
+install -p -m 0755 %{SOURCE4} %{buildroot}%{_libexecdir}/%{hv_kvp_daemon}/hv_set_ifconfig
 # Directory for pool files
 mkdir -p %{buildroot}%{_sharedstatedir}/hyperv
 
@@ -222,6 +224,7 @@ fi
 %files -n hypervkvpd
 %{_sbindir}/%{hv_kvp_daemon}
 %{_unitdir}/hypervkvpd.service
+%{_udevrulesdir}/%{udev_prefix}-hypervkvp.rules
 %dir %{_libexecdir}/%{hv_kvp_daemon}
 %{_libexecdir}/%{hv_kvp_daemon}/*
 %dir %{_sharedstatedir}/hyperv
@@ -229,15 +232,21 @@ fi
 %files -n hypervvssd
 %{_sbindir}/%{hv_vss_daemon}
 %{_unitdir}/hypervvssd.service
+%{_udevrulesdir}/%{udev_prefix}-hypervvss.rules
 
 %files -n hypervfcopyd
 %{_sbindir}/%{hv_fcopy_daemon}
 %{_unitdir}/hypervfcopyd.service
+%{_udevrulesdir}/%{udev_prefix}-hypervfcopy.rules
 
 %files license
 %doc COPYING
 
 %changelog
+* Wed Nov 18 2015 Vitaly Kuznetsov <vkuznets@redhat.com> - 0-0.13.20150702git
+- Add udev rules to properly restart services (#1195029)
+- Spec cleanup
+
 * Thu Jul 02 2015 Vitaly Kuznetsov <vkuznets@redhat.com> - 0-0.12.20150702git
 - Rebase to 4.2-rc0 (20150702 git snapshot)
 - Switch to new chardev-based communication layer (#1195029)

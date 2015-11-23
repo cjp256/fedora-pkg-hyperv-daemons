@@ -1,7 +1,8 @@
 [Unit]
 Description=Hyper-V KVP daemon
 ConditionVirtualization=microsoft
-ConditionPathExists=/dev/vmbus/hv_kvp
+BindsTo=sys-devices-virtual-misc-vmbus\x21hv_kvp.device
+After=sys-devices-virtual-misc-vmbus\x21hv_kvp.device
 
 [Service]
 Type=simple
