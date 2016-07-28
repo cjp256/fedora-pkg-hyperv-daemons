@@ -184,7 +184,10 @@ mkdir -p %{buildroot}%{_sharedstatedir}/hyperv
 
 
 %post -n hypervkvpd
-%systemd_post hypervkvpd.service
+if [ $1 > 1 ] ; then
+	# Upgrade
+	systemctl --no-reload disable hypervkvpd.service >/dev/null 2>&1 || :
+fi
 
 %preun -n hypervkvpd
 %systemd_preun hypervkvpd.service
@@ -199,7 +202,10 @@ fi
 
 
 %post -n hypervvssd
-%systemd_post hypervvssd.service
+if [ $1 > 1 ] ; then
+	# Upgrade
+	systemctl --no-reload disable hypervvssd.service >/dev/null 2>&1 || :
+fi
 
 %postun -n hypervvssd
 %systemd_postun hypervvssd.service
@@ -209,7 +215,10 @@ fi
 
 
 %post -n hypervfcopyd
-%systemd_post hypervfcopyd.service
+if [ $1 > 1 ] ; then
+	# Upgrade
+	systemctl --no-reload disable hypervfcopyd.service >/dev/null 2>&1 || :
+fi
 
 %postun -n hypervfcopyd
 %systemd_postun hypervfcopyd.service
@@ -245,6 +254,8 @@ fi
 %changelog
 * Thu Jul 28 2016 Vitaly Kuznetsov <vkuznets@redhat.com> - 0-0.15.20160728git
 - Rebase to 4.8-rc0 (20160728 git snapshot)
+- Disable services and remove ConditionVirtualization, multi-user.target
+  dependencies switching to udev-only activation (#1331577)
 
 * Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.14.20150702git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
