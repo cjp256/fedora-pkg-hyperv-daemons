@@ -82,9 +82,9 @@ Requires(preun):  systemd
 Requires(postun): systemd
 
 %description -n hypervkvpd
-Hypervkvpd is an implementation of HyperV key value pair (KVP) 
+Hypervkvpd is an implementation of HyperV key value pair (KVP)
 functionality for Linux. The daemon first registers with the
-kernel driver. After this is done it collects information 
+kernel driver. After this is done it collects information
 requested by Windows Host about the Linux Guest. It also supports
 IP injection functionality on the Guest.
 
@@ -102,7 +102,7 @@ Requires(postun): systemd
 Hypervvssd is an implementation of HyperV VSS functionality
 for Linux. The daemon is used for host initiated guest snapshot
 on HyperV hypervisor. The daemon first registers with the
-kernel driver. After this is done it waits for instructions 
+kernel driver. After this is done it waits for instructions
 from Windows Host if to "freeze" or "thaw" the filesystem
 on the Linux Guest.
 
@@ -120,7 +120,7 @@ Requires(postun): systemd
 Hypervfcopyd is an implementation of file copy service functionality
 for Linux Guest running on HyperV. The daemon enables host to copy
 a file (over VMBUS) into the Linux Guest. The daemon first registers
-with the kernel driver. After this is done it waits for instructions 
+with the kernel driver. After this is done it waits for instructions
 from Windows Host.
 
 
