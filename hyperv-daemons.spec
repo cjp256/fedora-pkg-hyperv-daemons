@@ -5,7 +5,7 @@
 # HyperV FCOPY daemon binary name
 %global hv_fcopy_daemon hypervfcopyd
 # snapshot version
-%global snapver .20150702git
+%global snapver .20160728git
 # use hardened build
 %global _hardened_build 1
 # udev rules prefix
@@ -13,39 +13,39 @@
 
 Name:     hyperv-daemons
 Version:  0
-Release:  0.14%{?snapver}%{?dist}
+Release:  0.15%{?snapver}%{?dist}
 Summary:  HyperV daemons suite
 
 Group:    System Environment/Daemons
 License:  GPLv2
 URL:      http://www.kernel.org
 
-# Source files obtained from kernel upstream 4.2-rc0 (4da3064d1775810f10f7ddc1c34c3f1ff502a654)
+# Source files obtained from kernel upstream 4.2-rc0 (194dc870a5890e855ecffb30f3b80ba7c88f96d6)
 # git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
 # The daemon and scripts are located in "master branch - /tools/hv"
 # COPYING -> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/COPYING?id=b1940cd21c0f4abdce101253e860feff547291b
 Source0:  COPYING
 
 # HYPERV KVP DAEMON
-# hv_kvp_daemon.c -> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/tools/hv/hv_kvp_daemon.c?id=4da3064d1775810f10f7ddc1c34c3f1ff502a654
+# hv_kvp_daemon.c -> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/tools/hv/hv_kvp_daemon.c?id=194dc870a5890e855ecffb30f3b80ba7c88f96d6
 Source1:  hv_kvp_daemon.c
-# hv_get_dhcp_info.sh -> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/tools/hv/hv_get_dhcp_info.sh?id=4da3064d1775810f10f7ddc1c34c3f1ff502a654
+# hv_get_dhcp_info.sh -> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/tools/hv/hv_get_dhcp_info.sh?id=194dc870a5890e855ecffb30f3b80ba7c88f96d6
 Source2:  hv_get_dhcp_info.sh
-# hv_get_dns_info.sh -> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/tools/hv/hv_get_dns_info.sh?id=4da3064d1775810f10f7ddc1c34c3f1ff502a654
+# hv_get_dns_info.sh -> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/tools/hv/hv_get_dns_info.sh?id=194dc870a5890e855ecffb30f3b80ba7c88f96d6
 Source3:  hv_get_dns_info.sh
-# hv_set_ifconfig.sh -> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/tools/hv/hv_set_ifconfig.sh?id=4da3064d1775810f10f7ddc1c34c3f1ff502a654
+# hv_set_ifconfig.sh -> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/tools/hv/hv_set_ifconfig.sh?id=194dc870a5890e855ecffb30f3b80ba7c88f96d6
 Source4:  hv_set_ifconfig.sh
 Source5:  hypervkvpd.service
 Source6:  hypervkvp.rules
 
 # HYPERV VSS DAEMON
-# hv_vss_daemon.c -> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/tools/hv/hv_vss_daemon.c?id=4da3064d1775810f10f7ddc1c34c3f1ff502a654
+# hv_vss_daemon.c -> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/tools/hv/hv_vss_daemon.c?id=194dc870a5890e855ecffb30f3b80ba7c88f96d6
 Source100:  hv_vss_daemon.c
 Source101:  hypervvssd.service
 Source102:  hypervvss.rules
 
 # HYPERV FCOPY DAEMON
-# hv_fcopy_daemon.c -> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/tools/hv/hv_fcopy_daemon.c?id=4da3064d1775810f10f7ddc1c34c3f1ff502a654
+# hv_fcopy_daemon.c -> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/tools/hv/hv_fcopy_daemon.c?id=194dc870a5890e855ecffb30f3b80ba7c88f96d6
 Source200:  hv_fcopy_daemon.c
 Source201:  hypervfcopyd.service
 Source202:  hypervfcopy.rules
@@ -243,6 +243,9 @@ fi
 %doc COPYING
 
 %changelog
+* Thu Jul 28 2016 Vitaly Kuznetsov <vkuznets@redhat.com> - 0-0.15.20160728git
+- Rebase to 4.8-rc0 (20160728 git snapshot)
+
 * Thu Feb 04 2016 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.14.20150702git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_24_Mass_Rebuild
 
