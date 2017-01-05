@@ -50,6 +50,9 @@ Source200:  hv_fcopy_daemon.c
 Source201:  hypervfcopyd.service
 Source202:  hypervfcopy.rules
 
+# HYPERV TOOLS
+Source301:  lsvmbus
+Source302:  bondvf.sh
 
 # HYPERV KVP DAEMON
 # Correct paths to external scripts ("/usr/libexec/hypervkvpd").
@@ -132,6 +135,13 @@ BuildArch:  noarch
 %description license
 Contains license of the Hyper-V daemons suite.
 
+%package -n hyperv-tools
+Summary:    Tools for Hyper-V guests
+Group:      Applications/System
+BuildArch:  noarch
+
+%description -n hyperv-tools
+Contains tools and scripts useful for Hyper-V guests.
 
 %prep
 %setup -Tc
@@ -182,6 +192,11 @@ install -p -m 0755 %{SOURCE4} %{buildroot}%{_libexecdir}/%{hv_kvp_daemon}/hv_set
 # Directory for pool files
 mkdir -p %{buildroot}%{_sharedstatedir}/hyperv
 
+# Tools
+install -p -m 0755 %{SOURCE301} %{buildroot}%{_sbindir}/
+
+mkdir -p %{buildroot}%{_datarootdir}/hyperv-tools/
+install -p -m 0755 %{SOURCE302} %{buildroot}%{_datarootdir}/hyperv-tools/
 
 %post -n hypervkvpd
 if [ $1 > 1 ] ; then
@@ -250,6 +265,10 @@ fi
 
 %files license
 %doc COPYING
+
+%files -n hyperv-tools
+%{_sbindir}/lsvmbus
+%{_datarootdir}/hyperv-tools
 
 %changelog
 * Thu Jul 28 2016 Vitaly Kuznetsov <vkuznets@redhat.com> - 0-0.15.20160728git
