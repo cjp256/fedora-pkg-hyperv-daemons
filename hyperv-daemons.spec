@@ -27,25 +27,19 @@ URL:      http://www.kernel.org
 Source0:  COPYING
 
 # HYPERV KVP DAEMON
-# hv_kvp_daemon.c -> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/tools/hv/hv_kvp_daemon.c?id=194dc870a5890e855ecffb30f3b80ba7c88f96d6
 Source1:  hv_kvp_daemon.c
-# hv_get_dhcp_info.sh -> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/tools/hv/hv_get_dhcp_info.sh?id=194dc870a5890e855ecffb30f3b80ba7c88f96d6
 Source2:  hv_get_dhcp_info.sh
-# hv_get_dns_info.sh -> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/tools/hv/hv_get_dns_info.sh?id=194dc870a5890e855ecffb30f3b80ba7c88f96d6
 Source3:  hv_get_dns_info.sh
-# hv_set_ifconfig.sh -> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/tools/hv/hv_set_ifconfig.sh?id=194dc870a5890e855ecffb30f3b80ba7c88f96d6
 Source4:  hv_set_ifconfig.sh
 Source5:  hypervkvpd.service
 Source6:  hypervkvp.rules
 
 # HYPERV VSS DAEMON
-# hv_vss_daemon.c -> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/tools/hv/hv_vss_daemon.c?id=194dc870a5890e855ecffb30f3b80ba7c88f96d6
 Source100:  hv_vss_daemon.c
 Source101:  hypervvssd.service
 Source102:  hypervvss.rules
 
 # HYPERV FCOPY DAEMON
-# hv_fcopy_daemon.c -> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/plain/tools/hv/hv_fcopy_daemon.c?id=194dc870a5890e855ecffb30f3b80ba7c88f96d6
 Source200:  hv_fcopy_daemon.c
 Source201:  hypervfcopyd.service
 Source202:  hypervfcopy.rules
