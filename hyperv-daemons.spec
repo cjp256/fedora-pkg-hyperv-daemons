@@ -1,8 +1,8 @@
-# HyperV KVP daemon binary name
+# Hyper-V KVP daemon binary name
 %global hv_kvp_daemon hypervkvpd
-# HyperV VSS daemon binary name
+# Hyper-V VSS daemon binary name
 %global hv_vss_daemon hypervvssd
-# HyperV FCOPY daemon binary name
+# Hyper-V FCOPY daemon binary name
 %global hv_fcopy_daemon hypervfcopyd
 # snapshot version
 %global snapver .20160728git
@@ -14,7 +14,7 @@
 Name:     hyperv-daemons
 Version:  0
 Release:  0.15%{?snapver}%{?dist}
-Summary:  HyperV daemons suite
+Summary:  Hyper-V daemons suite
 
 Group:    System Environment/Daemons
 License:  GPLv2
@@ -58,7 +58,7 @@ Patch0:   hypervkvpd-0-corrected_paths_to_external_scripts.patch
 Patch1:   hypervkvpd-0-long_file_names_from_readdir.patch
 
 
-# HyperV is available only on x86 architectures
+# Hyper-V is available only on x86 architectures
 # The base empty (a.k.a. virtual) package can not be noarch
 # due to http://www.rpm.org/ticket/78
 ExclusiveArch:  i686 x86_64
@@ -69,11 +69,11 @@ Requires:       hypervfcopyd = %{version}-%{release}
 
 %description
 Suite of daemons that are needed when Linux guest
-is running on Windows Host with HyperV.
+is running on Windows Host with Hyper-V.
 
 
 %package -n hypervkvpd
-Summary: HyperV key value pair (KVP) daemon
+Summary: Hyper-V key value pair (KVP) daemon
 Group:   System Environment/Daemons
 Requires: %{name}-license = %{version}-%{release}
 BuildRequires: systemd, kernel-headers
@@ -82,7 +82,7 @@ Requires(preun):  systemd
 Requires(postun): systemd
 
 %description -n hypervkvpd
-Hypervkvpd is an implementation of HyperV key value pair (KVP)
+Hypervkvpd is an implementation of Hyper-V key value pair (KVP)
 functionality for Linux. The daemon first registers with the
 kernel driver. After this is done it collects information
 requested by Windows Host about the Linux Guest. It also supports
@@ -90,7 +90,7 @@ IP injection functionality on the Guest.
 
 
 %package -n hypervvssd
-Summary: HyperV VSS daemon
+Summary: Hyper-V VSS daemon
 Group:   System Environment/Daemons
 Requires: %{name}-license = %{version}-%{release}
 BuildRequires: systemd, kernel-headers
@@ -99,16 +99,16 @@ Requires(preun):  systemd
 Requires(postun): systemd
 
 %description -n hypervvssd
-Hypervvssd is an implementation of HyperV VSS functionality
+Hypervvssd is an implementation of Hyper-V VSS functionality
 for Linux. The daemon is used for host initiated guest snapshot
-on HyperV hypervisor. The daemon first registers with the
+on Hyper-V hypervisor. The daemon first registers with the
 kernel driver. After this is done it waits for instructions
 from Windows Host if to "freeze" or "thaw" the filesystem
 on the Linux Guest.
 
 
 %package -n hypervfcopyd
-Summary: HyperV FCOPY daemon
+Summary: Hyper-V FCOPY daemon
 Group:   System Environment/Daemons
 Requires: %{name}-license = %{version}-%{release}
 BuildRequires: systemd, kernel-headers
@@ -118,19 +118,19 @@ Requires(postun): systemd
 
 %description -n hypervfcopyd
 Hypervfcopyd is an implementation of file copy service functionality
-for Linux Guest running on HyperV. The daemon enables host to copy
+for Linux Guest running on Hyper-V. The daemon enables host to copy
 a file (over VMBUS) into the Linux Guest. The daemon first registers
 with the kernel driver. After this is done it waits for instructions
 from Windows Host.
 
 
 %package license
-Summary:    License of the HyperV daemons suite
+Summary:    License of the Hyper-V daemons suite
 Group:      Applications/System
 BuildArch:  noarch
 
 %description license
-Contains license of the HyperV daemons suite.
+Contains license of the Hyper-V daemons suite.
 
 
 %prep
