@@ -5,7 +5,7 @@
 # Hyper-V FCOPY daemon binary name
 %global hv_fcopy_daemon hypervfcopyd
 # snapshot version
-%global snapver .20160728git
+%global snapver .20170105git
 # use hardened build
 %global _hardened_build 1
 # udev rules prefix
@@ -13,17 +13,17 @@
 
 Name:     hyperv-daemons
 Version:  0
-Release:  0.15%{?snapver}%{?dist}
+Release:  0.16%{?snapver}%{?dist}
 Summary:  Hyper-V daemons suite
 
 Group:    System Environment/Daemons
 License:  GPLv2
 URL:      http://www.kernel.org
 
-# Source files obtained from kernel upstream 4.2-rc0 (194dc870a5890e855ecffb30f3b80ba7c88f96d6)
+# Source files obtained from kernel upstream 4.9 (69973b830859bc6529a7a0468ba0d80ee5117826)
 # git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
 # The daemon and scripts are located in "master branch - /tools/hv"
-# COPYING -> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/COPYING?id=b1940cd21c0f4abdce101253e860feff547291b
+# COPYING -> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/COPYING?id=69973b830859bc6529a7a0468ba0d80ee5117826
 Source0:  COPYING
 
 # HYPERV KVP DAEMON
@@ -265,6 +265,10 @@ fi
 %{_datarootdir}/hyperv-tools
 
 %changelog
+* Thu Jan 05 2017 Vitaly Kuznetsov <vkuznets@redhat.com> - 0-0.16.20160728git
+- Rebase to 4.9
+- hyperv-tools subpackage added
+
 * Thu Jul 28 2016 Vitaly Kuznetsov <vkuznets@redhat.com> - 0-0.15.20160728git
 - Rebase to 4.8-rc0 (20160728 git snapshot)
 - Disable services and remove ConditionVirtualization, multi-user.target
