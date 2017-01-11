@@ -13,7 +13,7 @@
 
 Name:     hyperv-daemons
 Version:  0
-Release:  0.16%{?snapver}%{?dist}
+Release:  0.17%{?snapver}%{?dist}
 Summary:  Hyper-V daemons suite
 
 Group:    System Environment/Daemons
@@ -193,7 +193,7 @@ mkdir -p %{buildroot}%{_datarootdir}/hyperv-tools/
 install -p -m 0755 %{SOURCE302} %{buildroot}%{_datarootdir}/hyperv-tools/
 
 %post -n hypervkvpd
-if [ $1 > 1 ] ; then
+if [ $1 -gt 1 ] ; then
 	# Upgrade
 	systemctl --no-reload disable hypervkvpd.service >/dev/null 2>&1 || :
 fi
@@ -211,7 +211,7 @@ fi
 
 
 %post -n hypervvssd
-if [ $1 > 1 ] ; then
+if [ $1 -gt 1 ] ; then
 	# Upgrade
 	systemctl --no-reload disable hypervvssd.service >/dev/null 2>&1 || :
 fi
@@ -224,7 +224,7 @@ fi
 
 
 %post -n hypervfcopyd
-if [ $1 > 1 ] ; then
+if [ $1 -gt 1 ] ; then
 	# Upgrade
 	systemctl --no-reload disable hypervfcopyd.service >/dev/null 2>&1 || :
 fi
@@ -265,6 +265,9 @@ fi
 %{_datarootdir}/hyperv-tools
 
 %changelog
+* Wed Jan 11 2017 Vitaly Kuznetsov <vkuznets@redhat.com> - 0-0.17.20160728git
+- Use '-gt' instead of '>' to do the right comparison (#1412033)
+
 * Thu Jan 05 2017 Vitaly Kuznetsov <vkuznets@redhat.com> - 0-0.16.20160728git
 - Rebase to 4.9
 - hyperv-tools subpackage added
