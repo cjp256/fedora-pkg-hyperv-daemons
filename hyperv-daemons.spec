@@ -13,7 +13,7 @@
 
 Name:     hyperv-daemons
 Version:  0
-Release:  0.20%{?snapver}%{?dist}
+Release:  0.21%{?snapver}%{?dist}
 Summary:  Hyper-V daemons suite
 
 Group:    System Environment/Daemons
@@ -46,13 +46,6 @@ Source202:  hypervfcopy.rules
 
 # HYPERV TOOLS
 Source301:  lsvmbus
-
-# HYPERV KVP DAEMON
-# Correct paths to external scripts ("/usr/libexec/hypervkvpd").
-Patch0:   hypervkvpd-0-corrected_paths_to_external_scripts.patch
-# rhbz#872566
-Patch1:   hypervkvpd-0-long_file_names_from_readdir.patch
-
 
 # Hyper-V is available only on x86 architectures
 # The base empty (a.k.a. virtual) package can not be noarch
@@ -143,9 +136,6 @@ cp -pvL %{SOURCE0} COPYING
 cp -pvL %{SOURCE1} hv_kvp_daemon.c
 cp -pvL %{SOURCE100} hv_vss_daemon.c
 cp -pvL %{SOURCE200} hv_fcopy_daemon.c
-
-%patch0 -p1 -b .external_scripts
-%patch1 -p1 -b .long_names
 
 %build
 # HYPERV KVP DAEMON
@@ -260,6 +250,10 @@ fi
 %{_sbindir}/lsvmbus
 
 %changelog
+* Mon Dec 11 2017 Vitaly Kuznetsov <vkuznets@redhat.com> - 0-0.21.20170105git
+- Rebase to 4.15-rc2, drop fedora patches as changes are upstream
+- Start kvpd after network.target
+
 * Wed Aug 02 2017 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.20.20170105git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Binutils_Mass_Rebuild
 
