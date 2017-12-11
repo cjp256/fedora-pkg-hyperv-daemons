@@ -46,7 +46,6 @@ Source202:  hypervfcopy.rules
 
 # HYPERV TOOLS
 Source301:  lsvmbus
-Source302:  bondvf.sh
 
 # HYPERV KVP DAEMON
 # Correct paths to external scripts ("/usr/libexec/hypervkvpd").
@@ -189,9 +188,6 @@ mkdir -p %{buildroot}%{_sharedstatedir}/hyperv
 # Tools
 install -p -m 0755 %{SOURCE301} %{buildroot}%{_sbindir}/
 
-mkdir -p %{buildroot}%{_datarootdir}/hyperv-tools/
-install -p -m 0755 %{SOURCE302} %{buildroot}%{_datarootdir}/hyperv-tools/
-
 %post -n hypervkvpd
 if [ $1 -gt 1 ] ; then
 	# Upgrade
@@ -262,7 +258,6 @@ fi
 
 %files -n hyperv-tools
 %{_sbindir}/lsvmbus
-%{_datarootdir}/hyperv-tools
 
 %changelog
 * Wed Aug 02 2017 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.20.20170105git
