@@ -13,7 +13,7 @@
 
 Name:     hyperv-daemons
 Version:  0
-Release:  0.21%{?snapver}%{?dist}
+Release:  0.22%{?snapver}%{?dist}
 Summary:  Hyper-V daemons suite
 
 Group:    System Environment/Daemons
@@ -250,6 +250,9 @@ fi
 %{_sbindir}/lsvmbus
 
 %changelog
+* Wed Feb 07 2018 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.22.20170105git
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
+
 * Mon Dec 11 2017 Vitaly Kuznetsov <vkuznets@redhat.com> - 0-0.21.20170105git
 - Rebase to 4.15-rc2, drop fedora patches as changes are upstream
 - Start kvpd after network.target
