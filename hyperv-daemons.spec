@@ -5,7 +5,7 @@
 # Hyper-V FCOPY daemon binary name
 %global hv_fcopy_daemon hypervfcopyd
 # snapshot version
-%global snapver .20170105git
+%global snapver .20180415git
 # use hardened build
 %global _hardened_build 1
 # udev rules prefix
@@ -13,17 +13,15 @@
 
 Name:     hyperv-daemons
 Version:  0
-Release:  0.22%{?snapver}%{?dist}
+Release:  0.23%{?snapver}%{?dist}
 Summary:  Hyper-V daemons suite
 
 Group:    System Environment/Daemons
 License:  GPLv2
 URL:      http://www.kernel.org
 
-# Source files obtained from kernel upstream 4.9 (69973b830859bc6529a7a0468ba0d80ee5117826)
+# Source files obtained from kernel upstream 4.17-rc1 (60cc43fc888428bb2f18f08997432d426a243338)
 # git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-# The daemon and scripts are located in "master branch - /tools/hv"
-# COPYING -> https://git.kernel.org/cgit/linux/kernel/git/torvalds/linux.git/tree/COPYING?id=69973b830859bc6529a7a0468ba0d80ee5117826
 Source0:  COPYING
 
 # HYPERV KVP DAEMON
@@ -250,6 +248,9 @@ fi
 %{_sbindir}/lsvmbus
 
 %changelog
+* Thu Apr 19 2018 Vitaly Kuznetsov <vkuznets@redhat.com> - 0-0.23.20180415git
+- Rebase to 4.17-rc1
+
 * Wed Feb 07 2018 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.22.20170105git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
