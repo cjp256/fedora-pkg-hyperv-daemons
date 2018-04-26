@@ -13,7 +13,7 @@
 
 Name:     hyperv-daemons
 Version:  0
-Release:  0.23%{?snapver}%{?dist}
+Release:  0.24%{?snapver}%{?dist}
 Summary:  Hyper-V daemons suite
 
 Group:    System Environment/Daemons
@@ -53,6 +53,7 @@ ExclusiveArch:  i686 x86_64
 Requires:       hypervkvpd = %{version}-%{release}
 Requires:       hypervvssd = %{version}-%{release}
 Requires:       hypervfcopyd = %{version}-%{release}
+BuildRequires:  gcc
 
 %description
 Suite of daemons that are needed when Linux guest
@@ -248,6 +249,9 @@ fi
 %{_sbindir}/lsvmbus
 
 %changelog
+* Thu Apr 26 2018 Tomas Hozza <thozza@redhat.com> - 0-0.24.20180415git
+- Added gcc as an explicit BuildRequires
+
 * Thu Apr 19 2018 Vitaly Kuznetsov <vkuznets@redhat.com> - 0-0.23.20180415git
 - Rebase to 4.17-rc1
 
