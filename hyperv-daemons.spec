@@ -13,7 +13,7 @@
 
 Name:     hyperv-daemons
 Version:  0
-Release:  0.24%{?snapver}%{?dist}
+Release:  0.25%{?snapver}%{?dist}
 Summary:  Hyper-V daemons suite
 
 Group:    System Environment/Daemons
@@ -44,6 +44,9 @@ Source202:  hypervfcopy.rules
 
 # HYPERV TOOLS
 Source301:  lsvmbus
+
+# Make lsvmbus Python3 compatible
+Patch0: 0001-tools-hv-update-lsvmbus-to-be-compatible-with-python.patch
 
 # Hyper-V is available only on x86 architectures
 # The base empty (a.k.a. virtual) package can not be noarch
@@ -136,6 +139,9 @@ cp -pvL %{SOURCE1} hv_kvp_daemon.c
 cp -pvL %{SOURCE100} hv_vss_daemon.c
 cp -pvL %{SOURCE200} hv_fcopy_daemon.c
 
+cp -pvL %{SOURCE301} lsvmbus
+%patch0 -p3 -b .lsvmbus_python3
+
 %build
 # HYPERV KVP DAEMON
 gcc $RPM_OPT_FLAGS -c hv_kvp_daemon.c
@@ -175,7 +181,8 @@ install -p -m 0755 %{SOURCE4} %{buildroot}%{_libexecdir}/%{hv_kvp_daemon}/hv_set
 mkdir -p %{buildroot}%{_sharedstatedir}/hyperv
 
 # Tools
-install -p -m 0755 %{SOURCE301} %{buildroot}%{_sbindir}/
+install -p -m 0755 lsvmbus %{buildroot}%{_sbindir}/
+sed -i 's,#!/usr/bin/env python,#!/usr/bin/python3,' %{buildroot}%{_sbindir}/lsvmbus
 
 %post -n hypervkvpd
 if [ $1 -gt 1 ] ; then
@@ -249,6 +256,9 @@ fi
 %{_sbindir}/lsvmbus
 
 %changelog
+* Mon Jun 11 2018 Vitaly Kuznetsov <vkuznets@redhat.com> - 0-0.25.20180415git
+- Switch lsvmbus to Python3
+
 * Thu Apr 26 2018 Tomas Hozza <thozza@redhat.com> - 0-0.24.20180415git
 - Added gcc as an explicit BuildRequires
 
