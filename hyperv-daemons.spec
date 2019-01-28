@@ -16,7 +16,6 @@ Version:  0
 Release:  0.26%{?snapver}%{?dist}
 Summary:  Hyper-V daemons suite
 
-Group:    System Environment/Daemons
 License:  GPLv2
 URL:      http://www.kernel.org
 
@@ -65,7 +64,6 @@ is running on Windows Host with Hyper-V.
 
 %package -n hypervkvpd
 Summary: Hyper-V key value pair (KVP) daemon
-Group:   System Environment/Daemons
 Requires: %{name}-license = %{version}-%{release}
 BuildRequires: systemd, kernel-headers
 Requires(post):   systemd
@@ -82,7 +80,6 @@ IP injection functionality on the Guest.
 
 %package -n hypervvssd
 Summary: Hyper-V VSS daemon
-Group:   System Environment/Daemons
 Requires: %{name}-license = %{version}-%{release}
 BuildRequires: systemd, kernel-headers
 Requires(post):   systemd
@@ -100,7 +97,6 @@ on the Linux Guest.
 
 %package -n hypervfcopyd
 Summary: Hyper-V FCOPY daemon
-Group:   System Environment/Daemons
 Requires: %{name}-license = %{version}-%{release}
 BuildRequires: systemd, kernel-headers
 Requires(post):   systemd
@@ -117,7 +113,6 @@ from Windows Host.
 
 %package license
 Summary:    License of the Hyper-V daemons suite
-Group:      Applications/System
 BuildArch:  noarch
 
 %description license
@@ -125,7 +120,6 @@ Contains license of the Hyper-V daemons suite.
 
 %package -n hyperv-tools
 Summary:    Tools for Hyper-V guests
-Group:      Applications/System
 BuildArch:  noarch
 
 %description -n hyperv-tools
