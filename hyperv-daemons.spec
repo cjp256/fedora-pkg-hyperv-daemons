@@ -5,7 +5,7 @@
 # Hyper-V FCOPY daemon binary name
 %global hv_fcopy_daemon hypervfcopyd
 # snapshot version
-%global snapver .20180415git
+%global snapver .20190303git
 # use hardened build
 %global _hardened_build 1
 # udev rules prefix
@@ -13,7 +13,7 @@
 
 Name:     hyperv-daemons
 Version:  0
-Release:  0.26%{?snapver}%{?dist}
+Release:  0.28%{?snapver}%{?dist}
 Summary:  Hyper-V daemons suite
 
 Group:    System Environment/Daemons
@@ -44,9 +44,6 @@ Source202:  hypervfcopy.rules
 
 # HYPERV TOOLS
 Source301:  lsvmbus
-
-# Make lsvmbus Python3 compatible
-Patch0: 0001-tools-hv-update-lsvmbus-to-be-compatible-with-python.patch
 
 # Hyper-V is available only on x86 architectures
 # The base empty (a.k.a. virtual) package can not be noarch
@@ -140,7 +137,6 @@ cp -pvL %{SOURCE100} hv_vss_daemon.c
 cp -pvL %{SOURCE200} hv_fcopy_daemon.c
 
 cp -pvL %{SOURCE301} lsvmbus
-%patch0 -p3 -b .lsvmbus_python3
 
 %build
 # HYPERV KVP DAEMON
@@ -256,6 +252,9 @@ fi
 %{_sbindir}/lsvmbus
 
 %changelog
+* Fri Mar 15 2019 Vitaly Kuznetsov <vkuznets@redhat.com> - 0-0.28.20190303git
+- Rebase to 5.0
+
 * Fri Jul 13 2018 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.26.20180415git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
 
