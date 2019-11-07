@@ -2,6 +2,7 @@
 Description=Hyper-V KVP daemon
 BindsTo=sys-devices-virtual-misc-vmbus\x21hv_kvp.device
 After=network.target
+IgnoreOnIsolate=1
 
 [Service]
 Type=simple

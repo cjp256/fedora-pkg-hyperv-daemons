@@ -248,6 +248,7 @@ fi
 %changelog
 * Fri Nov 08 2019 Vitaly Kuznetsov <vkuznets@redhat.com> - 0-0.30.20190303git
 - Rebase to 5.4-rc6
+- Add IgnoreOnIsolate to systemd units
 
 * Thu Jul 25 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.29.20190303git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
