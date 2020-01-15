@@ -13,7 +13,7 @@
 
 Name:     hyperv-daemons
 Version:  0
-Release:  0.30%{?snapver}%{?dist}
+Release:  0.31%{?snapver}%{?dist}
 Summary:  Hyper-V daemons suite
 
 License:  GPLv2
@@ -134,16 +134,16 @@ cp -pvL %{SOURCE301} lsvmbus
 
 %build
 # HYPERV KVP DAEMON
-gcc $RPM_OPT_FLAGS -c hv_kvp_daemon.c
-gcc $RPM_LD_FLAGS  hv_kvp_daemon.o -o %{hv_kvp_daemon}
+%{__cc} $RPM_OPT_FLAGS -c hv_kvp_daemon.c
+%{__cc} $RPM_LD_FLAGS  hv_kvp_daemon.o -o %{hv_kvp_daemon}
 
 # HYPERV VSS DAEMON
-gcc $RPM_OPT_FLAGS -c hv_vss_daemon.c
-gcc $RPM_LD_FLAGS hv_vss_daemon.o -o %{hv_vss_daemon}
+%{__cc} $RPM_OPT_FLAGS -c hv_vss_daemon.c
+%{__cc} $RPM_LD_FLAGS hv_vss_daemon.o -o %{hv_vss_daemon}
 
 # HYPERV FCOPY DAEMON
-gcc $RPM_OPT_FLAGS -c hv_fcopy_daemon.c
-gcc $RPM_LD_FLAGS hv_fcopy_daemon.o -o %{hv_fcopy_daemon}
+%{__cc} $RPM_OPT_FLAGS -c hv_fcopy_daemon.c
+%{__cc} $RPM_LD_FLAGS hv_fcopy_daemon.o -o %{hv_fcopy_daemon}
 
 %install
 rm -rf %{buildroot}
@@ -246,6 +246,9 @@ fi
 %{_sbindir}/lsvmbus
 
 %changelog
+* Wed Jan 15 2020 Tom Stellard <tstellar@redhat.com> - 0-0.31.20190303git
+- Use __cc macro instead of hard-coding gcc
+
 * Fri Nov 08 2019 Vitaly Kuznetsov <vkuznets@redhat.com> - 0-0.30.20190303git
 - Rebase to 5.4-rc6
 - Add IgnoreOnIsolate to systemd units
