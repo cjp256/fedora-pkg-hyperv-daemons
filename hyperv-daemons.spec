@@ -13,7 +13,7 @@
 
 Name:     hyperv-daemons
 Version:  0
-Release:  0.35%{?snapver}%{?dist}
+Release:  0.36%{?snapver}%{?dist}
 Summary:  Hyper-V daemons suite
 
 License:  GPLv2
@@ -246,6 +246,9 @@ fi
 %{_sbindir}/lsvmbus
 
 %changelog
+* Thu Jan 20 2022 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.36.20190303git
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
+
 * Thu Jul 22 2021 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.35.20190303git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
 
