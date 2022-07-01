@@ -13,7 +13,7 @@
 
 Name:     hyperv-daemons
 Version:  0
-Release:  0.36%{?snapver}%{?dist}
+Release:  0.37%{?snapver}%{?dist}
 Summary:  Hyper-V daemons suite
 
 License:  GPLv2
@@ -246,6 +246,10 @@ fi
 %{_sbindir}/lsvmbus
 
 %changelog
+* Fri Jul 01 2022 Chris Patterson <cpatterson@microsoft.com> - 0-0.37.20190303git
+- Only start kvpd under Hyper-V
+- Minimize dependencies for kvpd to ensure it starts before cloud-init
+
 * Thu Jan 20 2022 Fedora Release Engineering <releng@fedoraproject.org> - 0-0.36.20190303git
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
 
